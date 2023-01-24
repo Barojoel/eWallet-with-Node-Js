@@ -1,0 +1,26 @@
+<main>
+  <form action="/register" method="POST" class="form">
+      <div>
+          <input type="text" name="firstname" placeholder="First Name" value="<%= typeof(values) != 'undefined' ? values.firstname : '' %>">
+      </div>
+      <div>
+              <input type="text" name="lastname" placeholder="Last Name" value="<%= typeof(values) != 'undefined' ? values.lastname : '' %>">
+      </div>
+      <div>
+          <input type="email" name="email" placeholder="Email" value="<%= typeof(values) != 'undefined' ? values.email : '' %>">
+      </div>
+      <div>
+          <input type="password" name="password" placeholder="Password">
+      </div>
+      <div>
+              <input type="password" name="passwordRepeat" placeholder="Repeat password">
+      </div>
+      <div>
+          <input type="submit" value="Create an account" name="register" class="btn btn-filled-color">
+      </div>
+      <span class="text-small">You have an account? <a href="/login">Log in</a></span>
+      <% if(typeof(error) != 'undefined') { %>
+          <div class="alert"><%= error.msg %></div>
+       <% } %>
+  </form>
+</main>

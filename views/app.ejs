@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="urf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Mr. Barasa Joel">
+        <meta name="description" content="eWallet - Free E-Wallet">
+        <meta name="keywords" content="E-Wallet, digital wallet, wallet">
+        <link rel="shortcut icon" href="/img/EMCI Logo.png">
+        <link rel="stylesheet" href="/css/styles.css">
+        <title>E-Wallet</title>
+        <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+    </head>
+    <body class="app-body">
+        <header class="header-filled header-columns header-mobile">
+            <img src="/img/EMCI Logo.png" alt="" height="24" id="mobile-menu">
+            <article class="header-columns header-left">
+                <img src="/img/EMCI Logo.png" alt="" height="40">
+            </article>
+            <article class="header-columns header-full-width">
+                <ul class="header-columns menu">
+                    <li><a href="/app/overview">Summary</a></li>
+                    <li><a href="/app/payments">Payments</a></li>
+                    <li><a href="/app/topup">Top-ups</a></li>
+                    <li><a href="/app/wallets">Wallets</a></li>
+                    <li><a href="/app/addincomexp">Transactions</a></li>
+                     
+                </ul>
+            </article>
+            <article class="header-columns header-right">
+                <a href="/logout">Log out</a>
+            </article>
+        </header>
+        <main class="app-main">
+            <% if(page == 'overview') { %>
+              <%- include ('../views/overview')%> 
+            <% } else if(page == 'payments') { %>
+              <%- include ('../views/payments') %>
+            <% } else if(page == 'topup') { %>
+               <%- include ('../views/topup') %>
+            <% } else if(page == 'coupon') { %>
+               <%- include ('../views/coupon') %>
+            <% } else if(page == 'wallet') { %>
+                <%- include ('../views/wallet') %>
+            <% } else if(page == 'addincomexp') { %>
+              <%- include ('../views/addincomexp') %>
+            <% } else if(page == 'addcard') { %>
+               <%- include ('../views/addcard') %>
+            <% } %>
+        </main>
+        <footer class="footer-fixed-bottom">Copyright &copy; 2023 Mr. Barasa Joel</footer>
+        <script src="/js/mobile-menu.js"></script>
+    </body>
+</html>

@@ -1,0 +1,182 @@
+<% function formatText(text) {
+    if(text.toString() == '1') {
+        return "transfer";
+    } else if(['2', '3', '4'].includes(text.toString().charAt(text.length-1))) {
+        return "transfers";
+    } else {
+        return "transfers";
+    }
+}
+%>
+
+<div class="flex-container">
+    <article class="flex-panel flex-panel1-3">
+        Statistics
+        <ul class="list">This month:
+            <li class="list-item">
+                <img src="/img/transfer-icon2.png">
+                <div class="list-item-left">
+                    You did<b> <%= stats.actualMonthExpences.count %></b>
+                    <%= formatText(stats.actualMonthExpences.count); %>
+                </div>
+            </li>
+            <li class="list-item">
+                <img src="/img/transfer-icon2.png">
+                <div class="list-item-left">
+                    You answered <b> <%= stats.actualMonthRevenues.count %></b>
+                    <%= formatText(stats.actualMonthRevenues.count); %>
+                </div>
+            </li>
+            <li class="list-item">
+                <img src="/img/payment-icon2.png">
+                <div class="list-item-left">
+                    You spent <b> Ksh. <%= stats.actualMonthExpences.value %></b>
+                </div>
+            </li>
+            <li class="list-item">
+            <img src="/img/payment-icon2.png">
+                <div class="list-item-left">
+                    You have received <b> Ksh. <%= stats.actualMonthRevenues.value %></b>
+                </div>
+            </li>
+        </ul>
+    </article>
+    <article class="flex-panel flex-panel1-3" style="position: relative; padding-bottom: 70px;">
+        <canvas id="chart2"></canvas>
+        <div class="chartText balance">
+            <span>Your Account Total Balance</span>
+            <h1>Ksh. <%= user.balance.toFixed(2) %></h1>
+            <h3>PLN</h3>
+        </div>
+        <div class="chartText expenses">
+            <span>This month:</span>
+            <h3>Ksh. <%= stats.actualMonthExpences.value %></h3>
+        </div>
+    </article>
+    <article class="flex-panel flex-panel1-3">
+        Messages
+        <ul class="list">
+            <% if(!user.creditCard) { %>
+                <li class="list-item">
+                    <img src="/img/alert-icon.png">
+                    <div class="list-item-left">
+                        Link your credit card to your account
+                    </div>
+                </li>
+            <% } %>
+        </ul>
+    </article>
+    <article class="flex-panel flex-panel1-3">
+        Persons
+        <ul class="list">
+            <% people.forEach(function(person) { %>
+                <li class="list-item">
+                    <img src="/img/user-icon.png" alt="">
+                    <div class="list-item-left">
+                        <div class="list-item-title">
+                            <%= person.firstname+' '+person.lastname %>
+                        </div>
+                        <div class="list-item-description">
+                            <%= person.email %>
+                        </div>
+                    </div>
+                    <div class="list-item-right">
+                        <a href="/app/payments/?recipient=<%= person.email %>" title="Send funds"><img src="/img/transfer-icon.png" alt=""></a>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    </article>
+    <article class="flex-panel flex-panel1-3">
+        <canvas id="chart1"></canvas>
+    </article>
+    <article class="flex-panel flex-panel1-3">
+        Recent transactions
+        <ul class="list">
+            <% let transactionList = JSON.parse(transactions) %>
+            <% transactionList.forEach(function(transaction) { %>
+                <% let date = new Date(transaction.createdAt) %>
+                <li><a href="/app/payments" class="list-item">
+                    <% if(transaction.type == 'coupon') { %>
+                        <img src="/img/coupon-icon.png" alt="">
+                    <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                        <img src="/img/transfer-icon2.png" alt="">
+                    <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                        <img src="/img/transfer-icon2.png" alt="">
+                    <% } %>
+                    <div class="list-item-left">
+                        <% if(transaction.type == 'coupon') { %>
+                            <div class="list-item-title">Coupon</div>
+                        <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                            <div class="list-item-title"><%= transaction.recipient.firstname+' '+transaction.recipient.lastname %></div>
+                        <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                            <div class="list-item-title"><%= transaction.sender.firstname+' '+transaction.sender.lastname %></div>
+                        <% } %>
+                        <div class="list-item-description"><%= (date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"."+(date.getMonth()+1 < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1)+"."+date.getFullYear() %></div>
+                    </div>
+                    <div class="list-item-right">
+                        <% if(transaction.type == 'coupon') { %>
+                            <div class="list-item-title green">Ksh. <%= transaction.amount %></div>
+                        <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                            <div class="list-item-title red">Ksh. <%= -transaction.amount %></div>
+                        <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                            <div class="list-item-title green">Ksh. <%= transaction.amount %></div>
+                        <% } %>
+                        <div class="list-item-description"><%= (date.getHours() < 10 ? "0"+date.getHours() : date.getHours())+":"+(date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()) %></div>
+                    </div></a>
+                </li>
+            <% }); %>
+        </ul>
+    </article>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+    var ctx = document.getElementById('chart1').getContext('2d');
+    var myLineChart = new Chart(ctx, {
+            type: 'bar',
+            data:  - JSON.stringify(chartData),
+            options: {
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Joel'
+                },
+                tooltips: {
+                    displayColors: false
+                }
+            }
+        });
+
+    var ctx2 = document.getElementById('chart2').getContext('2d');
+    var values = [stats.expenses.min, Math.round(stats.expenses.avg*100)/100, stats.expenses.max];
+    var balanceChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Minimum', 'Medium', 'Maximum'],
+            datasets: [{
+                data: [2, 3, 2],
+                backgroundColor: ['rgb(50, 168, 82)', 'rgb(245, 152, 40)', 'rgb(226, 13, 5)']
+            }]
+        },
+        options: {
+            cutoutPercentage: 80,
+            legend: false,
+            rotation: 0.75*Math.PI,
+            circumference:  1.5*Math.PI,
+            tooltips: {
+                displayColors: false,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return data.labels[tooltipItem.index]+': '+values[tooltipItem.index]+'Ksh.';
+                    }
+                }
+            },
+            title: {
+                display: true,
+                text: 'Monthly expenses'
+            }
+        }
+    });
+</script>

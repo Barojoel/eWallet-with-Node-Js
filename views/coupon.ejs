@@ -1,0 +1,12 @@
+<div class="flex-container">
+    <div class="flex-panel flex-panel1-2">
+            <h2>Redeem the coupon</h2>
+            <form action="/app/coupon" method="post">
+                <input type="text" name="code" maxlength="8" class="inputCoupon">
+                <input type="submit" value="Redeem" class="btn btn-filled-color">
+            </form>
+            <% if(typeof message !== 'undefined') { %>
+                <div class="alert"><%= message %></div>
+            <% } %>
+    </div>
+</div>

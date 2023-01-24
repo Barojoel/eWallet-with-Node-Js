@@ -1,0 +1,64 @@
+<div class="flex-container">
+    <article class="flex-panel flex-panel2-3">
+        <h2>History</h2>
+        <!--
+        <ul class="list">
+            <% let transactionList = JSON.parse(transactions) %>
+            <% transactionList.forEach(function(transaction) { %>
+                <% let date = new Date(transaction.createdAt) %>
+                <li class="list-item transaction-list">
+                    <% if(transaction.type == 'coupon') { %>
+                        <img src="/img/coupon-icon.png" alt="">
+                    <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                        <img src="/img/transfer-icon2.png" alt="">
+                    <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                        <img src="/img/transfer-icon2.png" alt="">
+                    <% } %>
+                    <div class="list-item-left">
+                        <% if(transaction.type == 'coupon') { %>
+                            <div class="list-item-title green">Coupon redeemed: <%= transaction.couponCode %></div>
+                        <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                            <div class="list-item-title red">Transfer funds to <%= transaction.recipient.firstname+' '+transaction.recipient.lastname+' ('+transaction.recipient.email+')' %></div>
+                        <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                            <div class="list-item-title green">Transfer funds from <%= transaction.sender.firstname+' '+transaction.sender.lastname+' ('+transaction.recipient.email+')' %></div>
+                        <% } %>
+                        <div class="list-item-description"><%= transaction.description %></div>
+                    </div>
+                    <div class="list-item-right">
+                        <% if(transaction.type == 'coupon') { %>
+                            <div class="list-item-title green">Ksh. <%= transaction.amount %></div>
+                        <% } else if(transaction.type == 'transfer' && transaction.sender._id == user._id.toString()) { %>
+                            <div class="list-item-title red">Ksh. <%= -transaction.amount %></div>
+                        <% } else if(transaction.type == 'transfer' && transaction.recipient._id == user._id.toString()) { %>
+                            <div class="list-item-title green">Ksh. <%= transaction.amount %></div>
+                        <% } %>
+                        <div class="list-item-description"><%= (date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"."+(date.getMonth()+1 < 10 ? "0"+(date.getMonth()+1) : date.getMonth()+1)+"."+date.getFullYear() %>&ensp;<%= (date.getHours() < 10 ? "0"+date.getHours() : date.getHours())+":"+(date.getMinutes() < 10 ? "0"+date.getMinutes() : date.getMinutes()) %></div>
+                    </div>
+                </li>
+            <% }); %>
+        </ul>
+    </article> 
+-->
+      <!---The Form for adding Income and Expenses
+      <article class="flex-panel flex-panel1-3 flex-panel-auto-height">
+        <form action="/transfer'" method="POST" class="form2">
+            <h1>Add Incomes or Expenses</h1>
+            <div>
+                <input type="email" name="email" placeholder="Email*" value="<%= (recipient ? recipient : '') %>" required>
+            </div>
+            <div>
+                <input type="number" min="0" name="amount" placeholder="Sum*" step="0.01" required <%= (recipient ? 'autofocus' : '') %>>
+            </div>
+            <div>
+                <textarea maxlength="250" rows="3" placeholder="Description" name="description"></textarea>
+            </div>
+            <div>
+                <input type="submit" name="transfer" value="Send" class="btn btn-color">
+            </div>
+            <% if(typeof(message) != 'undefined') { %>
+                <div class="alert"><%= message %></div>
+             <% } %>
+        </form>
+    </article>
+-->
+</div>
