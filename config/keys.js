@@ -1,4 +1,4 @@
-dbPassword = 'mongodb+srv://EMCI:'+ encodeURIComponent('EMCI123') + '@cluster0.op4yqul.mongodb.net/test?retryWrites=true&w=majority';
+dbPassword = 'mongodb+srv://<username>:'+ encodeURIComponent('<password') + '@cluster0.op4yqul.mongodb.net/test?retryWrites=true&w=majority';
 module.exports = {
     mongoURI: dbPassword
 };
